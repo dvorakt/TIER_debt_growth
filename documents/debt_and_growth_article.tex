@@ -3,25 +3,18 @@
 \usepackage[rmargin=2in, lmargin=1in,marginparwidth=1.5in,textheight=8in]{geometry}
 \usepackage{graphicx}
 \usepackage{natbib}
-\bibliographystyle{rusnat}
 \usepackage{hyperref}
-\hypersetup{
-    citecolor=blue,
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,
-    urlcolor=blue,
-}
+\hypersetup{citecolor=blue,colorlinks=true,linkcolor=blue,urlcolor=blue}
 
 \begin{document}
-\title{\vspace{-1in} Coding Empirical Analysis from Beginning to End: Application to Debt and Growth Relationship}
+
+\title{\vspace{-0.5in} Coding Empirical Analysis from Beginning to End: Application to Debt and Growth Relationship}
 \author{Tomas Dvorak\thanks{Union College, dvorakt@union.edu}}
 
 \maketitle
 
-
 \section{Introduction}
-\marginpar{\raggedright \small{This document and the associated files including original data, programs can be downloaded here.}}
+\marginpar{\raggedright \small{This document and the associated files including original data, programs can be downloaded from a github repository \href{https://github.com/dvorakt/TIER_debt_growth}{here}.}}
 
 The purpose of this note is to illustrate the use programming code to perform empirical analysis from beginning to end: from database retrieval, through cleaning and manipulating data, to analysis and display of empirical results. It is inspired by the need to promote reproducible research as outlined in \cite{ball2012teaching}, \cite{gentzkow2014code} and \cite{hoffler2017replication}. 
 
@@ -84,6 +77,7 @@ In Table 3 I examine the relationship more systematically using regression. It a
 
 As described in  \cite{gentzkow2014code} doing empirical work involves writing a lot of code. Code makes analysis reproducible, less prone to errors, and easily extendable. This note introduced the concepts of retrieving, manipulating and analyzing data using Stata code, and organizing data and code according to the principles of reproducible research. Although, the empirical results are just the first pass, they are meaningful, consistent with existing finding, and, importantly, can be used as a starting point for further analysis. 
 
+\bibliographystyle{aea}
 \bibliography{debtandgrowth}
 
 \end{document}

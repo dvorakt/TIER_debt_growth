@@ -4,6 +4,7 @@
 use ../analysis_data/five_year_data, clear
 
 *create box plot of initial debt level on subsequent growth
+set scheme s1mono
 graph box gdpgrowth ,over(debt_cat) medline(lcolor(black)) intensity(0) ///
 	marker(1,msize(vsmall)) ///
 	ytitle("Average real GDP growth over next four years") ///

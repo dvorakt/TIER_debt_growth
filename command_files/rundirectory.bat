@@ -5,4 +5,5 @@
 "C:\Program Files (x86)\Stata15\StataSE-64.exe" /e do  create5year_data.do
 "C:\Program Files (x86)\Stata15\StataSE-64.exe" /e do  analyze5year.do
 :: each Stata run generates log file, I delete these
-del *.log
+::del *.log
+PAUSE
