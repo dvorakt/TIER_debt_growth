@@ -1,0 +1,77 @@
+"Debt Database Fall 2013 Vintage.xlsx" was downloaded on August 10, 2017 from http://www.imf.org/en/Publications/WP/Issues/2016/12/31/A-Historical-Public-Debt-Database-24332
+The excel workbook includes readme sheet. Key info about the series is below:
+The target variable is gross general government debt, but in many cases (especially for the period before 1980) only central government data was available and this is what is reported.
+Debt is scaled to nominal GDP; where GDP was unavailable but other measures of income (GNP, NNP) were available, those were used. See the working paper for more details. 
+Full description of the data is at http://www.imf.org/external/pubs/ft/wp/2010/wp10245.pdf
+
+
+"wdidata08102017.dta" was obtained by running the query below in Stata on August 10, 2017
+wbopendata, indicator(NY.GDP.MKTP.KD.ZG ; GC.DOD.TOTL.GD.ZS; NY.GDP.PCAP.KD; SP.POP.TOTL) clear long 
+The resulting .log file is below:
+
+. wbopendata, indicator(NY.GDP.MKTP.KD.ZG ; GC.DOD.TOTL.GD.ZS; NY.GDP.PCAP.KD; SP.POP.TOTL) clear long
+Metadata: NY.GDP.MKTP.KD.ZG
+---------------------------------------------------------------------------------------------------------------------------------------------
+    Name: GDP growth (annual %)
+  -------------------------------------------------------------------------------------------------------------------------------------------
+    Source: World Development Indicators
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Note: Annual percentage growth rate of GDP at market prices based on constant local currency. Aggregates are based on constant
+    2010 U.S. dollars. GDP is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any
+    subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets
+    or for depletion and degradation of natural resources.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Organization: World Bank national accounts data, and OECD National Accounts data files.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Topics: Economy & Growth
+ --------------------------------------------------------------------------------------------------------------------------------------------
+Metadata: GC.DOD.TOTL.GD.ZS
+---------------------------------------------------------------------------------------------------------------------------------------------
+    Name: Central government debt, total (% of GDP)
+  -------------------------------------------------------------------------------------------------------------------------------------------
+    Source: World Development Indicators
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Note: Debt is the entire stock of direct government fixed-term contractual obligations to others outstanding on a particular
+    date. It includes domestic and foreign liabilities such as currency and money deposits, securities other than shares, and loans. It is
+    the gross amount of government liabilities reduced by the amount of equity and financial derivatives held by the government. Because
+    debt is a stock rather than a flow, it is measured as of a given date, usually the last day of the fiscal year.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Organization: International Monetary Fund, Government Finance Statistics Yearbook and data files, and World Bank and OECD GDP
+    estimates.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Topics: Economy & Growth
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Topics: Public Sector
+ --------------------------------------------------------------------------------------------------------------------------------------------
+Metadata: NY.GDP.PCAP.KD
+---------------------------------------------------------------------------------------------------------------------------------------------
+    Name: GDP per capita (constant 2010 US$)
+  -------------------------------------------------------------------------------------------------------------------------------------------
+    Source: World Development Indicators
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Note: GDP per capita is gross domestic product divided by midyear population. GDP is the sum of gross value added by all
+    resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is
+    calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data
+    are in constant 2010 U.S. dollars.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Organization: World Bank national accounts data, and OECD National Accounts data files.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Topics: Economy & Growth
+ --------------------------------------------------------------------------------------------------------------------------------------------
+Metadata: SP.POP.TOTL
+---------------------------------------------------------------------------------------------------------------------------------------------
+    Name: Population, total
+  -------------------------------------------------------------------------------------------------------------------------------------------
+    Source: World Development Indicators
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Note: Total population is based on the de facto definition of population, which counts all residents regardless of legal status
+    or citizenship. The values shown are midyear estimates.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Source Organization: (1) United Nations Population Division. World Population Prospects, (2) Census reports and other statistical
+    publications from national statistical offices, (3) Eurostat: Demographic Statistics, (4) United Nations Statistical Division.
+    Population and Vital Statistics Report (various years), (5) U.S. Census Bureau: International Database, and (6) Secretariat of the
+    Pacific Community: Statistics and Demography Programme.
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Topics: Climate Change
+ --------------------------------------------------------------------------------------------------------------------------------------------
+    Topics: Health

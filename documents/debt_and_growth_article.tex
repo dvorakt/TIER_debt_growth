@@ -1,0 +1,90 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{marginnote}
+\usepackage[rmargin=2in, lmargin=1in,marginparwidth=1.5in,textheight=8in]{geometry}
+\usepackage{graphicx}
+\usepackage{natbib}
+\bibliographystyle{rusnat}
+\usepackage{hyperref}
+\hypersetup{
+    citecolor=blue,
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\begin{document}
+\title{\vspace{-1in} Coding Empirical Analysis from Beginning to End: Application to Debt and Growth Relationship}
+\author{Tomas Dvorak\thanks{Union College, dvorakt@union.edu}}
+
+\maketitle
+
+
+\section{Introduction}
+\marginpar{\raggedright \small{This document and the associated files including original data, programs can be downloaded here.}}
+
+The purpose of this note is to illustrate the use programming code to perform empirical analysis from beginning to end: from database retrieval, through cleaning and manipulating data, to analysis and display of empirical results. It is inspired by the need to promote reproducible research as outlined in \cite{ball2012teaching}, \cite{gentzkow2014code} and \cite{hoffler2017replication}. 
+
+Programming code (statistical and other) provides complete documentation of every step in the empirical analysis. I begin with original data and after executing the code, all empirical results (tables and figures) are produced. This is the so-called "soup-to-nuts" approach advocated by \href{http://www.projecttier.org/}{Project TIER}. I follow the \href{http://www.projecttier.org/tier-protocol/}{TIER Protocol} to organize the documentation, data and program folders. I also follow \cite{gentzkow2014code} to "automate everything" including the use of batch files to execute programs in the correct order. This includes executing Stata programs to generate tables and figures as well as executing \LaTeX files that rely on those tables and figures. In the end, executing one batch file produces the final paper pdf.\footnote{Running one program to do all of the analysis and to produce the write-up of that analysis is the idea behind \href{http://rmarkdown.rstudio.com/}{R Markdown} - a tool that is very popular among R users. Using batch files to stitch together Stata and \LaTeX code I am able to replicate some of the functionality of R Markdown.}
+
+The value of this note and the associated files is that they provide a working example of coding empirical analysis from beginning to end. It deals with tasks commonly encountered by empirical researchers, such as importing, cleaning, reshaping and merging data (and dealing with mismatched keys). I show how these tasks can be accomplished using code rather than by-hand. While writing code can take more time in the short-run, it has tremendous long-run benefits when updating, revising or extending the analysis. I provide an example of a sensible directory structure that can aid in the organization of any empirical project, and provide easily reproducible data and programs. The Stata and batch code include detailed comments making them useful for teaching purposes. 
+ 
+The empirical content of this note is motivated by the work of \cite{herndon2014does} who \href{http://www.cc.com/video-clips/dcyvro/the-colbert-report-austerity-s-spreadsheet-error}{famously} discovered a "spreadsheet error" in the work by \cite{reinhartrogoffAER2010}. \cite{herndon2014does} overturn Reinhart and Rogoff results that economic growth declines as public debt reaches levels above 90\% of GDP. The sources of the different result include a miss-typed formula in an Excel spreadsheet and arbitrary exclusions of certain observations. Given that this  episode highlights the importance of careful data manipulation and thorough documentation, it is a fitting application of using code from beginning to end.\footnote{Code not immune to errors. However, the difference between using code and manipulating data by hand is that code documents what manipulations are done; it can be scrutinized by peers; and can easily be corrected.} 
+
+\section{Data}
+\marginpar{\raggedright \small{The data is obtained using \texttt{get and clean.do}. The program illustrates retrieving data from a database, importing from Excel, reshaping a dataset, merging two data sets.}}
+
+I use data from two publicly available sources. The first source is  \href{http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators&preview=on}{World Development Indicators} (WDI) which contains country level annual data on a large number of macroeconomic indicators. The advantage of using WDI is that the data is collected using consistent methodologies. The drawback is that WDI public debt data begins only in 1990 for most countries. The second source of data is the Historical Public Debt Database (HPDD) put together by \cite{abbas2011historical}. The database contains data on debt to GDP ratio for a large number of countries going back to as far as 1600s. 
+
+Data from WDI can be retrieved directly using Stata's command \texttt{wdiopen}. I retrieved four series: debt to GDP, real GDP growth, GDP per capita and population.\footnote{The series codes are respectively GC.DOD.TOTL.GD.ZS, NY.GDP.MKTP.KD.ZG, NY.GDP.PCAP.KD, SP.POP.TOTL. R package \texttt{WDI} has the same functionality as Stata's \texttt{wdiopen}.} I saved the retrieved data as of August 2017. At that date WDI contained data through 2016 for at least some countries. I combined the WDI data with the HPDD. As my measure of debt to GDP ratio I use the HPDD except when HPDD data is missing and WDI's is not. This is mostly for years after 2013. 
+
+I eliminate countries that at any point since 1960 had population of less than 500 thousand (countries like Marshall Islands or San Marino). I also drop countries that have no observations for either debt to GDP or GDP growth, and I drop observations where both debt to GDP and GDP growth are missing. In the end I have 6,822 observations on 142 countries spanning years 1960 to 2016. Table 1 below shows the descriptive statistics.
+
+\input{tables_figures/tab_descriptive_stats}
+
+
+\section{Is Debt Related to Growth?}
+\subsection{Contemporaneous relationship}
+\marginpar{\raggedright \small{This section uses program \texttt{analyze annual.do}. The program illustrates creating summary tables and figures. The summary tables rely on \texttt{estpost} and \texttt{esttab}}}
+
+Similar to previous work, I group the observations into four categories by the level of debt. Table 2 below shows mean and median GDP growth and debt to GDP by debt level category. It appears that country-years with higher level of debt are associated with lower GDP growth.
+
+\input{tables_figures/tab_growth_by_debt.tex}
+
+Figure 1 below shows the box plot of GDP growth by debt category. It shows a number of outliers.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=3.5in,]{tables_figures/fig_box_annual.eps}
+\caption{Contemporaneous relationship between debt and growth}
+\end{figure}
+
+\subsection{Does debt \emph{predict} low growth?}
+\marginpar{\raggedright \small{This section relies on \texttt{create5year.do}. The program manipulates the annual data to create five-year period data. The data is then analyzed using \texttt{analyze5year.do}}}
+
+The initial work by \cite{reinhartrogoffAER2010} and \cite{herndon2014does} was followed by a number of papers that extended the analysis further. For example, \cite{eberhardt2015public} look at the long-run effects of high debt, and \cite{panizza2014public} control for endogeneity in the relationship between public debt and economic growth. In the spirit of that work, this section  examines whether indebtedness \emph{predicts} GDP growth over the next four years.  
+
+My strategy is to create five-year periods for each country. The first year in that period is the initial year and we will measure GDP growth over the next four years. I require that for a five year period to be included GDP growth is available for at least two of the subsequent four years. Since each country enters the data set at different times, the five-year periods could begin in different years for different countries. The resulting dataset has 1285 observation on 142 countries. On average I have nine five-year periods for each country. Figure 2 below shows the box plot of initial debt level and the average growth.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=3.5in,]{tables_figures/fig_box_5year.eps}
+	\caption{Debt to GDP and subsequent GDP growth}
+\end{figure}
+
+In Table 3 I examine the relationship more systematically using regression. It also allow me to control for initial GDP per capita. The regression results show statistically significant negative relationship between debt and subsequent growth. This is consistent with the findings of \cite{eberhardt2015public}. 
+
+\begin{table}[h!] \centering
+\caption{Debt Level and Subsequent GDP Growth}
+\include{tables_figures/tab_regression} 
+\end{table}
+
+
+\section{Conclusion}
+
+As described in  \cite{gentzkow2014code} doing empirical work involves writing a lot of code. Code makes analysis reproducible, less prone to errors, and easily extendable. This note introduced the concepts of retrieving, manipulating and analyzing data using Stata code, and organizing data and code according to the principles of reproducible research. Although, the empirical results are just the first pass, they are meaningful, consistent with existing finding, and, importantly, can be used as a starting point for further analysis. 
+
+\bibliography{debtandgrowth}
+
+\end{document}
+
