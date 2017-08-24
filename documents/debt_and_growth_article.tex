@@ -32,6 +32,7 @@ I use data from two publicly available sources. The first source is  \href{http:
 Data from WDI can be retrieved directly using Stata's command \texttt{wdiopen}. I retrieved four series: debt to GDP, real GDP growth, GDP per capita and population.\footnote{The series codes are respectively GC.DOD.TOTL.GD.ZS, NY.GDP.MKTP.KD.ZG, NY.GDP.PCAP.KD, SP.POP.TOTL. R package \texttt{WDI} has the same functionality as Stata's \texttt{wdiopen}.} I saved the retrieved data as of August 2017. At that date WDI contained data through 2016 for at least some countries. I combined the WDI data with the HPDD. As my measure of debt to GDP ratio I use the HPDD except when HPDD data is missing and WDI's is not. This is mostly for years after 2013. 
 
 I eliminate countries that at any point since 1960 had population of less than 500 thousand (countries like Marshall Islands or San Marino). I also drop countries that have no observations for either debt to GDP or GDP growth, and I drop observations where both debt to GDP and GDP growth are missing. In the end I have 6,822 observations on 142 countries spanning years 1960 to 2016. Table 1 below shows the descriptive statistics.
+\marginpar{\raggedright \small{I ask Stata \texttt{.do} files to output tables into a \texttt{.tex} file which obviates the need for any manual copying and pasting of empirical results.}}
 
 \input{tables_figures/tab_descriptive_stats}
 
